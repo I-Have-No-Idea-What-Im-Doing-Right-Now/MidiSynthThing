@@ -1,7 +1,10 @@
 #include <iostream>
+
+#include "TrackEvent.h"
 #include "MetaEvent.h"
+#include "MidiEvent.h"
 
 int main() {
-	MetaEvent x(0, MetaEventType::copyrightNotice, std::vector<uint8_t>(5));
+	TrackEvents::MidiEvent x(0, TrackEvents::MidiEventType::noteOn, 0, std::vector<uint8_t>(5));
 	std::cout << x.ToString() << std::endl;
 }

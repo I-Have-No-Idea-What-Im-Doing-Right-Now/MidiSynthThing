@@ -8,25 +8,26 @@
 #include "TrackEvent.h"
 #include <vector>
 
-enum MetaEventType {
-	sequenceNumber = 0,
-	textEvent = 1,
-	copyrightNotice = 2,
-	trackName = 3,
-	instrumentName = 4,
-	lyric = 5,
-	marker = 6,
-	cuePoint = 7,
-	midiChannelPrefix = 32,
-	trackEnd = 47,
-	setTempo = 81,
-	smpteOffset = 84,
-	timeSignature = 88,
-	keySignature = 89,
-	sequencerSpecific = 127
-};
+namespace TrackEvents {
+	enum class MetaEventType {
+		sequenceNumber = 0,
+		textEvent = 1,
+		copyrightNotice = 2,
+		trackName = 3,
+		instrumentName = 4,
+		lyric = 5,
+		marker = 6,
+		cuePoint = 7,
+		midiChannelPrefix = 32,
+		trackEnd = 47,
+		setTempo = 81,
+		smpteOffset = 84,
+		timeSignature = 88,
+		keySignature = 89,
+		sequencerSpecific = 127
+	};
 
-class MetaEvent : TrackEvent {
+	class MetaEvent : TrackEvent {
 	public:
 		MetaEvent(int offset, MetaEventType metaEventType, const std::vector<uint8_t>& data);
 		MetaEvent(int offset, int metaEventType, const std::vector<uint8_t>& data);
@@ -34,7 +35,6 @@ class MetaEvent : TrackEvent {
 
 		MetaEventType metaType;
 		std::vector<uint8_t> data;
-};
-
-
+	};
+}
 #endif //MIDISYNTH_METAEVENT_H

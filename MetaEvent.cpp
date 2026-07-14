@@ -7,20 +7,22 @@
 #include "utils.h"
 #include <format>
 
-MetaEvent::MetaEvent(int offset, MetaEventType metaEventType, const std::vector<uint8_t>& data) :
-TrackEvent(EventType::metaEvent, offset) {
-	metaType = metaEventType;
-	this->data = data;
-}
+namespace TrackEvents {
+	MetaEvent::MetaEvent(int offset, MetaEventType metaEventType, const std::vector<uint8_t>& data) :
+	TrackEvent(EventType::metaEvent, offset) {
+		metaType = metaEventType;
+		this->data = data;
+	}
 
-MetaEvent::MetaEvent(int offset, int metaEventType, const std::vector<uint8_t>& data) :
-TrackEvent(EventType::metaEvent, offset) {
-	metaType = static_cast<MetaEventType>(metaEventType);
-	this->data = data;
-}
+	MetaEvent::MetaEvent(int offset, int metaEventType, const std::vector<uint8_t>& data) :
+	TrackEvent(EventType::metaEvent, offset) {
+		metaType = static_cast<MetaEventType>(metaEventType);
+		this->data = data;
+	}
 
-std::string MetaEvent::ToString() const {
-	return std::format(
-	"Meta Event: {}\n\t- Offset: {}\n\tData: \n{}",
-	static_cast<int>(metaType), eventOffset, indent_string(bytes_to_hex(data)));
+	std::string MetaEvent::ToString() const {
+		return std::format(
+		"Meta Event: {}\n\t- Offset: {}\n\tData: \n{}",
+		static_cast<int>(metaType), eventOffset, indent_string(bytes_to_hex(data)));
+	}
 }

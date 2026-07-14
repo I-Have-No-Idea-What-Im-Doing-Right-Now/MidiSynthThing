@@ -5,20 +5,20 @@
 #ifndef MIDISYNTH_TRACKEVENT_H
 #define MIDISYNTH_TRACKEVENT_H
 
-enum EventType {
-	midiEvent = 1,
-	metaEvent = 2,
-	sysexEvent = 3
-};
+namespace TrackEvents {
+	enum class EventType {
+		midiEvent = 1,
+		metaEvent = 2,
+		sysexEvent = 3
+	};
 
-class TrackEvent {
+	class TrackEvent {
 	public:
 		TrackEvent(EventType eventType, int offset);
 		TrackEvent(int eventType, int offset);
 		virtual ~TrackEvent() = default;
 		EventType trackEventType;
 		int eventOffset;
-};
-
-
+	};
+}
 #endif //MIDISYNTH_TRACKEVENT_H
