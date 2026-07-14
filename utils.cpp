@@ -50,7 +50,18 @@ std::string bytes_to_hex(const std::vector<uint8_t> &bytes) {
 	std::string out;
 	for (size_t i = 0; i < bytes.size(); ++i) {
 		out += std::format("{:0{}X}", i, static_cast<uint>(ceil(log2(i + 1) / 8))) + "   ";
-		out += std::format("{:02X} ", bytes[i]) << " " << bytes[i] << std::endl;
+		out += std::format("{:02X} ", bytes[i]) + " " + static_cast<char>(bytes[i]) + "\n";
 	}
 	return out;
+}
+
+std::string indent_string(std::string str) {
+	for (int i = 0; i < str.length(); ++i) {
+		if (str[i] == '\n') {
+			str.insert(i + 1, "\t");
+			++i;
+		}
+	}
+	str.insert(0, "\t");
+	return str;
 }

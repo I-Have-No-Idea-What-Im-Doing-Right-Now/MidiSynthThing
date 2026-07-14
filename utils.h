@@ -16,5 +16,6 @@ std::vector<uint8_t> int_to_bytes(int num, int length, const std::string& byteor
 void push_back_string(const std::string& string, std::vector<uint8_t>& bytes);
 void push_back_int(std::vector<uint8_t>& bytes, int num, int length, const std::string& byteorder);
 std::string bytes_to_hex(const std::vector<uint8_t>& bytes);
+std::string indent_string(std::string str);
 
 #endif //UTILS_H

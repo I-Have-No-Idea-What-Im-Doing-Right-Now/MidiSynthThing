@@ -21,6 +21,6 @@ TrackEvent(EventType::metaEvent, offset) {
 
 std::string MetaEvent::ToString() const {
 	return std::format(
-	"Meta Event: {}\n\t- Offset: {}\n\t- Data: \n {}",
+	"Meta Event: {}\n\t- Offset: {}\n\t- Data: \n{}",
 	static_cast<int>(metaType), eventOffset, bytes_to_hex(data));
 }
