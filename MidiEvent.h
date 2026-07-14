@@ -20,13 +20,14 @@ namespace TrackEvents {
 	};
 
 
-	class MidiEvent : TrackEvent {
+	class MidiEvent : public TrackEvent {
 	public:
 		MidiEvent(int offset, MidiEventType eventType, int channel, const std::vector<uint8_t> &data);
 		MidiEventType midiEventType;
 		int channel;
 		std::vector<uint8_t> data;
-		[[nodiscard]] std::string ToString() const;
+		[[nodiscard]] std::string ToString() const override;
+		[[nodiscard]] std::unique_ptr<TrackEvent> Clone() const override;
 	};
 }
 #endif //MIDISYNTH_MIDIEVENT_H

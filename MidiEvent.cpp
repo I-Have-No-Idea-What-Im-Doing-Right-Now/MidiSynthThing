@@ -19,3 +19,7 @@ namespace TrackEvents {
 			static_cast<int>(midiEventType), channel, indent_string(bytes_to_hex(data)));
 	}
 }
+
+std::unique_ptr<TrackEvents::TrackEvent> TrackEvents::MidiEvent::Clone() const {
+	return std::make_unique<MidiEvent>(*this);
+}

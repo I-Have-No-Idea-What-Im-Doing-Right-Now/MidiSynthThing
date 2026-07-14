@@ -26,3 +26,7 @@ namespace TrackEvents {
 		static_cast<int>(metaType), eventOffset, indent_string(bytes_to_hex(data)));
 	}
 }
+
+std::unique_ptr<TrackEvents::TrackEvent> TrackEvents::MetaEvent::Clone() const {
+	return std::make_unique<MetaEvent>(*this);
+}

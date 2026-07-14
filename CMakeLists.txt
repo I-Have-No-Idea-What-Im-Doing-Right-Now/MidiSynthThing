@@ -15,4 +15,6 @@ add_executable(MidiSynth main.cpp
         MetaEvent.h
         MidiEvent.cpp
         MidiEvent.h
+        MidiTrack.cpp
+        MidiTrack.h
 )

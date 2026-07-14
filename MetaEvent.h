@@ -27,11 +27,12 @@ namespace TrackEvents {
 		sequencerSpecific = 127
 	};
 
-	class MetaEvent : TrackEvent {
+	class MetaEvent : public TrackEvent {
 	public:
 		MetaEvent(int offset, MetaEventType metaEventType, const std::vector<uint8_t>& data);
 		MetaEvent(int offset, int metaEventType, const std::vector<uint8_t>& data);
-		[[nodiscard]] std::string ToString() const;
+		[[nodiscard]] std::string ToString() const override;
+		[[nodiscard]] std::unique_ptr<TrackEvent> Clone() const override;
 
 		MetaEventType metaType;
 		std::vector<uint8_t> data;

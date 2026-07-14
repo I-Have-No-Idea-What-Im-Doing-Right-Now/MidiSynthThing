@@ -4,6 +4,8 @@
 
 #ifndef MIDISYNTH_TRACKEVENT_H
 #define MIDISYNTH_TRACKEVENT_H
+#include <string>
+#include <memory>
 
 namespace TrackEvents {
 	enum class EventType {
@@ -17,6 +19,9 @@ namespace TrackEvents {
 		TrackEvent(EventType eventType, int offset);
 		TrackEvent(int eventType, int offset);
 		virtual ~TrackEvent() = default;
+
+		[[nodiscard]] virtual std::string ToString() const = 0;
+		[[nodiscard]] virtual std::unique_ptr<TrackEvent> Clone() const = 0;
 		EventType trackEventType;
 		int eventOffset;
 	};
