@@ -47,8 +47,10 @@ void push_back_int(std::vector<uint8_t> &bytes, int num, int length, const std::
 }
 
 std::string bytes_to_hex(const std::vector<uint8_t> &bytes) {
+	std::string out;
 	for (size_t i = 0; i < bytes.size(); ++i) {
-		std::cout << std::format("{:0{}X}", i, static_cast<uint>(ceil(log2(i + 1) / 8))) << "   ";
-		std::cout << std::format("{:02X} ", bytes[i]) << " " << bytes[i] << std::endl;
+		out += std::format("{:0{}X}", i, static_cast<uint>(ceil(log2(i + 1) / 8))) + "   ";
+		out += std::format("{:02X} ", bytes[i]) << " " << bytes[i] << std::endl;
 	}
+	return out;
 }

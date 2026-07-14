@@ -6,9 +6,9 @@
 #define MIDISYNTH_TRACKEVENT_H
 
 enum EventType {
-	MidiEvent = 1,
-	MetaEvent = 2,
-	SysexEvent = 3
+	midiEvent = 1,
+	metaEvent = 2,
+	sysexEvent = 3
 };
 
 class TrackEvent {
