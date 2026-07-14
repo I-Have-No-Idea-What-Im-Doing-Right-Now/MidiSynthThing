@@ -3,6 +3,7 @@
 //
 
 #include "MidiTrack.h"
+#include <format>
 #include <memory>
 
 MidiTrack::MidiTrack() = default;
@@ -10,12 +11,32 @@ MidiTrack::MidiTrack() = default;
 MidiTrack::MidiTrack(const MidiTrack &track) {
 	events = track.events;
 }
-MidiTrack::MidiTrack(const std::vector<std::shared_ptr<TrackEvent>>& events) {
-	this->events = events;
+MidiTrack::MidiTrack(const std::vector<std::shared_ptr<TrackEvent>>& trackEvents) {
+	events = trackEvents;
 }
 
-void MidiTrack::AddEvent(MidiEvent& event) {
+MidiTrack::MidiTrack(const std::vector<TrackEvent*> &trackEvents) {
+	for (const TrackEvent* trackEvent : trackEvents) {
+		AddEvent(*trackEvent);
+	}
+}
+
+MidiTrack::MidiTrack(const std::vector<TrackEvent>& trackEvents) {
+	for (const TrackEvent& trackEvent : trackEvents) {
+		AddEvent(trackEvent);
+	}
+}
+
+void MidiTrack::AddEvent(const TrackEvent& event) {
 	std::unique_ptr<TrackEvent> uniqueCopy = event.Clone();
 	const std::shared_ptr<TrackEvent> sharedCopy = std::move(uniqueCopy);
 	events.push_back(sharedCopy);
+}
+
+std::string MidiTrack::ToString() const {
+	std::string contents;
+	for (const auto& trackEvent : events) {
+		contents.append(trackEvent->ToString());
+	}
+	return std::format("Midi Track: \n{}", contents);
 }

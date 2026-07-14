@@ -15,12 +15,17 @@ class MidiTrack {
 	public:
 		MidiTrack();
 		MidiTrack(const MidiTrack& track);
-		explicit MidiTrack(const std::vector<std::shared_ptr<TrackEvent>>& events);
+
+		explicit MidiTrack(const std::vector<std::shared_ptr<TrackEvent>>& trackEvents);
+		explicit MidiTrack(const std::vector<TrackEvent*>& trackEvents);
+		explicit MidiTrack(const std::vector<TrackEvent>& trackEvents);
+
+		std::string ToString() const;
 
 		std::vector<std::shared_ptr<TrackEvent>> events;
 
 	private:
-		void AddEvent(MidiEvent& event);
+		void AddEvent(const TrackEvent& event);
 };
 
 #endif //MIDISYNTH_MIDITRACK_H
