@@ -3,6 +3,7 @@
 //
 
 #include "MidiTrack.h"
+#include "utils.h"
 #include <format>
 #include <memory>
 
@@ -37,6 +38,7 @@ std::string MidiTrack::ToString() const {
 	std::string contents;
 	for (const auto& trackEvent : events) {
 		contents.append(trackEvent->ToString());
+		contents.append("\n");
 	}
-	return std::format("Midi Track: \n{}", contents);
+	return std::format("Midi Track: \n{}", indent_string(contents));
 }
