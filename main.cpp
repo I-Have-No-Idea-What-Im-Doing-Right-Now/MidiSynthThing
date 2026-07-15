@@ -7,11 +7,14 @@
 
 int main() {
 	std::vector<TrackEvent*> events;
+	MetaEvent e(20, MetaEventType::copyrightNotice, std::vector<uint8_t>(1));
 	for (int i = 0; i < 20; i++) {
-		MetaEvent e = MetaEvent(0, MetaEventType::copyrightNotice, std::vector<uint8_t>(40));
+		e = MetaEvent(20, MetaEventType::copyrightNotice, std::vector<uint8_t>(3));
 		events.push_back(&e);
 	}
 	MidiTrack track(events);
 	std::cout << track.ToString() << std::endl;
-	std::cout << bytes_to_hex(std::vector<uint8_t>(10));
+
+	MetaEvent m = MetaEvent(20, MetaEventType::copyrightNotice, std::vector<uint8_t>(3));
+	std::cout << m.ToString() << std::endl;
 }

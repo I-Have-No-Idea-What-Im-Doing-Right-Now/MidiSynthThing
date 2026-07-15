@@ -5,6 +5,7 @@
 #include "MidiTrack.h"
 #include "utils.h"
 #include <format>
+#include <iostream>
 #include <memory>
 
 MidiTrack::MidiTrack() = default;
@@ -40,5 +41,5 @@ std::string MidiTrack::ToString() const {
 		contents.append(trackEvent->ToString());
 		contents.append("\n");
 	}
-	return std::format("Midi Track: \n{}", indent_string(contents));
+	return std::format("Midi Track:\n{}", indent_string(contents));
 }
