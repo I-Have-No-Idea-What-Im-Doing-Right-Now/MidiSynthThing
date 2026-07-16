@@ -5,6 +5,7 @@
 #ifndef MIDISYNTH_MIDIEVENT_H
 #define MIDISYNTH_MIDIEVENT_H
 
+#include <unordered_map>
 #include <vector>
 #include "TrackEvent.h"
 
@@ -17,6 +18,16 @@ namespace TrackEvents {
 		programChange = 12,
 		channelKeyPressure = 13, // Like poly key pressure but overall highest on channel
 		pitchWheelChange = 14
+	};
+
+	std::unordered_map<MidiEventType, int> midiEventDataLengths = {
+		{MidiEventType::noteOff, 2},
+			{MidiEventType::noteOn, 2},
+			{MidiEventType::polyphonicKeyPressure, 2},
+			{MidiEventType::controlChange, 2},
+			{MidiEventType::programChange, 1},
+			{MidiEventType::channelKeyPressure, 1},
+			{MidiEventType::pitchWheelChange, 2}
 	};
 
 
