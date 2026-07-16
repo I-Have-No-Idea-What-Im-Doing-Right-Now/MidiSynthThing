@@ -65,3 +65,4 @@ std::string indent_string(std::string str) {
 	str.insert(0, "\t");
 	return str;
 }
+
