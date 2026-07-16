@@ -20,7 +20,7 @@ namespace TrackEvents {
 		pitchWheelChange = 14
 	};
 
-	std::unordered_map<MidiEventType, int> midiEventDataLengths = {
+	inline std::unordered_map<MidiEventType, int> midiEventDataLengths = {
 		{MidiEventType::noteOff, 2},
 			{MidiEventType::noteOn, 2},
 			{MidiEventType::polyphonicKeyPressure, 2},

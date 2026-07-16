@@ -68,10 +68,16 @@ MidiTrack::MidiTrack(const std::vector<uint8_t>& data) {
 		else {
 			// Mask out last 4 bits of the first byte of the Midi event to get channel number
 			auto channel = data[position] & 15;
+
+			// Bitwise AND with 240 (11110000) to mask out first 4 bits and bitshift to put at start of byte
 			auto eventType = static_cast<MidiEventType>((data[position] & 240) >> 4);
 
 			position += 1;
+			const int eventDataLength = midiEventDataLengths[eventType];
+			std::vector eventData(data.begin() + position, data.begin() + position + eventDataLength);
+			position += eventDataLength;
 
+			MidiEvent event(offset, eventType, channel, eventData);
 		}
 	}
 }
