@@ -17,6 +17,6 @@ void push_back_string(const std::string& string, std::vector<uint8_t>& bytes);
 void push_back_int(std::vector<uint8_t>& bytes, int num, int length, const std::string& byteorder);
 std::string bytes_to_hex(const std::vector<uint8_t>& bytes);
 std::string indent_string(std::string str);
-int bytes_to_int(const std::vector<uint8_t>& bytes);
+long bytes_to_int(const std::vector<uint8_t>& bytes, const std::string& byteorder, bool isSigned);
 
 #endif //UTILS_H

@@ -66,3 +66,33 @@ std::string indent_string(std::string str) {
 	return str;
 }
 
+long bytes_to_int(const std::vector<uint8_t> &bytes, const std::string &byteorder, bool isSigned) {
+	long out = 0;
+	bool signBit;
+	if (byteorder == "big") {
+		for (size_t i = bytes.size() - 1; i > 1; i--) { // Loop through all but first byte starting from end
+			const size_t position = i - 1;
+			out *= 256; // Move value of last byte read up 8 bits by multiplying
+			out += bytes[position]; // Add value of current byte
+		}
+		out += bytes[0] & (127 * isSigned); // Remove sign bit from first byte if value is signed
+		signBit = static_cast<bool>((bytes[0] & 128) >> 7);
+	}
+	else if (byteorder == "little") {
+		for (size_t i = 0; i > bytes.size() - 2; i++) { // Loop through all but last byte starting from beginning
+			const size_t position = i - 1;
+			out *= 256;
+			out += bytes[position];
+		}
+		out *= 256;
+		out += bytes[bytes.size() - 1];
+		signBit = static_cast<bool>((bytes[bytes.size() - 1] & 128) >> 7);
+	}
+	else {
+		throw std::invalid_argument(R"(Byteorder must be "big" or "little")");
+	}
+	if (isSigned) {
+		out -= signBit * pow(2, 8 * bytes.size() - 1); // Subtract value of most significant bit
+	}
+	return out;
+}
