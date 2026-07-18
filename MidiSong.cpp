@@ -31,11 +31,35 @@ void MidiSong::InitializeFromFileBytes(const std::vector<uint8_t> &midiFile, boo
 	}
 
 	// Format of Midi file. 0 = single track, 1 = multiple track, 2 = multiple song
-	int fileFormat = bytes_to_int(std::vector(midiFile.begin() + 8, midiFile.begin() + 10), "big");
+	fileFormat = bytes_to_int(std::vector(midiFile.begin() + 8, midiFile.begin() + 10), "big");
 	if (fileFormat == 2) throw std::invalid_argument("Multiple song Midi format not supported");
 
-	int numTracks = bytes_to_int(std::vector(midiFile.begin() + 10, midiFile.begin() + 12), "big");
-	
+	numTracks = bytes_to_int(std::vector(midiFile.begin() + 10, midiFile.begin() + 12), "big");
+
+	// Number of units per beat
+	division = bytes_to_int(std::vector(midiFile.begin() + 12, midiFile.begin() + 14), "big", true);
+
+	if (division <= 0) throw std::invalid_argument("Files with negative division value not supported");
+
+	if (std::string(midiFile.begin() + 14, midiFile.begin() + 18) != "MTrk") {
+		throw std::invalid_argument("File is not valid. Failed to read header of first Midi track");
+	}
+
+	// Get length of first track in bytes
+	uint32_t trackLength = bytes_to_int(std::vector(midiFile.begin() + 18, midiFile.begin() + 22), "big");
+	uint position = 22; // Keep track of position, starting at the first byte of track data
+
+	for (uint16_t i = 0; i < numTracks; i++) {
+		// Get data of track
+		const std::vector trackData(midiFile.begin() + position, midiFile.begin() + position + trackLength);
+		MidiTrack track(trackData);
+		tracks.push_back(track); // Construct new Midi track on back of tracks using trackData
+		position += trackLength + 4; // Move over track data and header for next track
+		trackLength = bytes_to_int(std::vector(midiFile.begin() + position, midiFile.begin() + position + 4), "big");
+		position += 4;
+		if (!debugPrint) continue;
+		std::cout << track.ToString() << std::endl;
+	}
 }
 
 std::string MidiSong::ToString() const {

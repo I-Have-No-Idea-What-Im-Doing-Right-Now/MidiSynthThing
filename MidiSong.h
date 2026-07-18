@@ -15,6 +15,9 @@ class MidiSong {
 		[[nodiscard]] std::string ToString() const;
 
 		std::vector<MidiTrack> tracks;
+		uint16_t fileFormat;
+		uint16_t numTracks;
+		int16_t division;
 	private:
 		void InitializeFromFileBytes(const std::vector<uint8_t>& midiFile, bool debugPrint);
 };
