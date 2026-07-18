@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "utils.h"
+
 MidiSong::MidiSong(const std::vector<uint8_t>& midiFile, bool debugPrint) {
 	InitializeFromFileBytes(midiFile, debugPrint);
 }
@@ -27,7 +29,13 @@ void MidiSong::InitializeFromFileBytes(const std::vector<uint8_t> &midiFile, boo
 	if (std::string(midiFile.begin(), midiFile.begin() + 4) != "MThd") {
 		throw std::invalid_argument("Provided file is not a valid Midi file");
 	}
-	if 
+
+	// Format of Midi file. 0 = single track, 1 = multiple track, 2 = multiple song
+	int fileFormat = bytes_to_int(std::vector(midiFile.begin() + 8, midiFile.begin() + 10), "big");
+	if (fileFormat == 2) throw std::invalid_argument("Multiple song Midi format not supported");
+
+	int numTracks = bytes_to_int(std::vector(midiFile.begin() + 10, midiFile.begin() + 12), "big");
+	
 }
 
 std::string MidiSong::ToString() const {
