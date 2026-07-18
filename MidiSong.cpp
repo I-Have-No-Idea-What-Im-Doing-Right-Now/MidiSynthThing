@@ -63,4 +63,9 @@ void MidiSong::InitializeFromFileBytes(const std::vector<uint8_t> &midiFile, boo
 }
 
 std::string MidiSong::ToString() const {
+	std::string out;
+	for (const MidiTrack& track : tracks) {
+		out.append(track.ToString() + "\n");
+	}
+	return out;
 }
