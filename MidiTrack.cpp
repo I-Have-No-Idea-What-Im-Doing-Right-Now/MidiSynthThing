@@ -78,6 +78,7 @@ MidiTrack::MidiTrack(const std::vector<uint8_t>& data) {
 			position += eventDataLength;
 
 			MidiEvent event(offset, eventType, channel, eventData);
+			AddEvent(event);
 		}
 	}
 }

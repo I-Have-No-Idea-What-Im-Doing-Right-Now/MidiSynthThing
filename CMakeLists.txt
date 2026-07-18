@@ -7,7 +7,6 @@ add_executable(MidiSynth main.cpp
         Synth.cpp
         Synth.h
         utils.h
-        main.cpp
         utils.cpp
         TrackEvent.cpp
         TrackEvent.h
