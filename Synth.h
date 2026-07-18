@@ -31,7 +31,6 @@ protected:
     template <typename T>
     requires std::is_floating_point_v<T>
     [[nodiscard]] std::vector<uint8_t> FloatToSampleData(T value) const {
-        //std::cout << value << std::endl;
         // Value parameter will be between -1 and 1
         const bool isSigned = bitsPerSample > 8; // Bit depths over 8 use 2's compliment
         double n = value;
@@ -48,9 +47,9 @@ protected:
     virtual std::vector<uint8_t> GenerateSoundData(double length, double volume, double frequency);
 
 private:
-    int channels;
-    int samplerate;
-    int bitsPerSample;
+    ushort channels;
+    uint samplerate;
+    ushort bitsPerSample;
 
     // Private virtual DoGenerateFile to safely use default arguments for generate file
     virtual void DoGenerateFile(double length, double volume, double frequency, const std::string& filename, bool printData);
