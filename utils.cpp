@@ -76,7 +76,7 @@ long bytes_to_int(const std::vector<uint8_t> &bytes, const std::string &byteorde
 			out += bytes[position]; // Add value of current byte
 		}
 		out += bytes[0] & (127 * isSigned); // Remove sign bit from first byte if value is signed
-		signBit = static_cast<bool>((bytes[0] & 128) >> 7);
+		signBit = static_cast<bool>(bytes[0] & 128);
 	}
 	else if (byteorder == "little") {
 		for (size_t i = 0; i > bytes.size() - 2; i++) { // Loop through all but last byte starting from beginning
@@ -86,7 +86,7 @@ long bytes_to_int(const std::vector<uint8_t> &bytes, const std::string &byteorde
 		}
 		out *= 256;
 		out += bytes[bytes.size() - 1];
-		signBit = static_cast<bool>((bytes[bytes.size() - 1] & 128) >> 7);
+		signBit = static_cast<bool>(bytes[bytes.size() - 1] & 128);
 	}
 	else {
 		throw std::invalid_argument(R"(Byteorder must be "big" or "little")");
