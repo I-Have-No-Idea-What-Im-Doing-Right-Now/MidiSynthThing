@@ -19,3 +19,11 @@ add_executable(MidiSynth main.cpp
         MidiSong.cpp
         MidiSong.h
 )
+
+add_custom_command(
+        TARGET MidiSynth POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/Midi Files"
+            "${CMAKE_CURRENT_BINARY_DIR}/Midi Files"
+        COMMENT "Copying Midi Files directory to build directory..."
+)
