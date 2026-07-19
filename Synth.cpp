@@ -44,7 +44,6 @@ std::vector<uint8_t> Synth::GenerateSoundData(double length, double volume, doub
 
 	for (uint i = 0; i < datasize; i += bytespersample * channels) {
 		const uint sampleNum = i / (bytespersample * channels);
-		std::cout << sampleNum << std::endl;
 		for (ushort channelNumber = 0; channelNumber < channels; channelNumber++) {
 			for (std::vector<uint8_t> sampledata = FloatToSampleData(volume * MakeSampleData(sampleNum, frequency)); uint8_t byte : sampledata) {
 				data.push_back(byte);

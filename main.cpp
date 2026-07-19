@@ -3,5 +3,5 @@
 
 int main() {
 	Synth x(2);
-	x.GenerateFile(0.1);
+	x.GenerateFile(3);
 }
