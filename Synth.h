@@ -16,17 +16,17 @@ public:
         DoGenerateFile(length, volume, frequency, filename, printData);
     }
 protected:
-    [[nodiscard]] double GetSampleTime(int sampleNum) const;
+    [[nodiscard]] double GetSampleTime(uint sampleNum) const;
 
-    [[nodiscard]] double MakeSineData(int sampleNum, double frequency) const;
+    [[nodiscard]] double MakeSineValue(uint sampleNum, double frequency) const;
 
-    [[nodiscard]] double MakeSquareData(int sampleNum, double frequency) const;
+    [[nodiscard]] double MakeSquareValue(uint sampleNum, double frequency) const;
 
-    [[nodiscard]] double MakeTriangleData(int sampleNum, double frequency) const;
+    [[nodiscard]] double MakeTriangleValue(uint sampleNum, double frequency) const;
 
-    [[nodiscard]] double MakeSawtoothData(int sampleNum, double frequency) const;
+    [[nodiscard]] double MakeSawtoothValue(uint sampleNum, double frequency) const;
 
-    [[nodiscard]] double MakeSampleData(int sampleNum, double frequency) const;
+    [[nodiscard]] double MakeSampleValue(uint sampleNum, double frequency, double pan) const;
 
     template <typename T>
     requires std::is_floating_point_v<T>

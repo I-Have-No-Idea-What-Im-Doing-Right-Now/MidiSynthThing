@@ -11,30 +11,31 @@ Synth::Synth(int channels, int samplerate, int bitsPerSample) {
 	this->channels = channels;
 	this->samplerate = samplerate;
 	this->bitsPerSample = bitsPerSample;
+	if (channels > 2) throw std::logic_error("Using more than 2 channels is not supported");
 }
 
-double Synth::GetSampleTime(int sampleNum) const {
+double Synth::GetSampleTime(uint sampleNum) const {
 	return static_cast<double>(sampleNum) / static_cast<double>(samplerate);
 }
 
-double Synth::MakeSineData(int sampleNum, double frequency) const {
+double Synth::MakeSineValue(uint sampleNum, double frequency) const {
 	return sin(2.0 * M_PI * frequency * GetSampleTime(sampleNum));
 }
 
-double Synth::MakeSquareData(int sampleNum, double frequency) const {
-	return sign(MakeSineData(sampleNum, frequency));
+double Synth::MakeSquareValue(uint sampleNum, double frequency) const {
+	return sign(MakeSineValue(sampleNum, frequency));
 }
 
-double Synth::MakeTriangleData(int sampleNum, double frequency) const {
+double Synth::MakeTriangleValue(uint sampleNum, double frequency) const {
 	return (2.0 / M_PI) * asin(sin(2.0 * M_PI * frequency * GetSampleTime(sampleNum)));
 }
 
-double Synth::MakeSawtoothData(int sampleNum, double frequency) const {
+double Synth::MakeSawtoothValue(uint sampleNum, double frequency) const {
 	return 2 * std::fmod(frequency * GetSampleTime(sampleNum), 1) - 1;
 }
 
-double Synth::MakeSampleData(int sampleNum, double frequency) const {
-	return MakeSineData(sampleNum, frequency);
+double Synth::MakeSampleValue(uint sampleNum, double frequency, double pan) const { // Pan value -1 = left, 1 = right
+	return MakeSineValue(sampleNum, frequency);
 }
 
 std::vector<uint8_t> Synth::GenerateSoundData(double length, double volume, double frequency) {
@@ -42,10 +43,12 @@ std::vector<uint8_t> Synth::GenerateSoundData(double length, double volume, doub
 	const int bytespersample = bitsPerSample / 8;
 	std::vector<uint8_t> data;
 
-	for (uint i = 0; i < datasize; i += bytespersample * channels) {
+	for (uint i = 0; i < datasize; i += bytespersample * channels) { // Loop over data one sample at a time
 		const uint sampleNum = i / (bytespersample * channels);
-		for (ushort channelNumber = 0; channelNumber < channels; channelNumber++) {
-			for (std::vector<uint8_t> sampledata = FloatToSampleData(volume * MakeSampleData(sampleNum, frequency)); uint8_t byte : sampledata) {
+		for (ushort channelNumber = 0; channelNumber < channels; channelNumber++) { // Loop through each channel
+			const double pan = (channelNumber * 2) - 1; // Calculate pan value. Channel 0 (left) = -1; Channel 1 (right) = 1
+			std::vector<uint8_t> sampledata = FloatToSampleData(volume * MakeSampleValue(sampleNum, frequency, pan));
+			for (uint8_t byte : sampledata) {
 				data.push_back(byte);
 			}
 		}
@@ -73,7 +76,7 @@ void Synth::DoGenerateFile(double length, double volume, double frequency, const
 	push_back_string("data", data); // ID for data subchunk
 	push_back_int(data, datasubchunksize, 4, "little");
 
-	std::vector<uint8_t> soundData = GenerateSoundData(length, volume, frequency);
+	const std::vector<uint8_t> soundData = GenerateSoundData(length, volume, frequency);
 	for (uint8_t byte : soundData) {
 		data.push_back(byte);
 	}
